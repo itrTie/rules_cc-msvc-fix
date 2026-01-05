@@ -1026,6 +1026,7 @@ def _impl(ctx):
                         ACTION_NAMES.cpp_compile,
                         ACTION_NAMES.cpp_header_parsing,
                         ACTION_NAMES.cpp_module_compile,
+                        ACTION_NAMES.cpp_module_deps_scanning,
                     ],
                     flag_groups = [
                         flag_group(
@@ -1173,6 +1174,20 @@ def _impl(ctx):
                                     expand_if_available = "output_preprocess_file",
                                 ),
                             ],
+                            expand_if_available = "output_file",
+                        ),
+                    ],
+                ),
+            ],
+            env_sets = [
+                env_set(
+                    actions = [
+                        ACTION_NAMES.cpp_module_deps_scanning,
+                    ],
+                    env_entries = [
+                        env_entry(
+                            key = "DEPS_SCANNER_OUTPUT_FILE",
+                            value = "%{output_file}",
                             expand_if_available = "output_file",
                         ),
                     ],
